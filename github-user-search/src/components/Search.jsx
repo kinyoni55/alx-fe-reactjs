@@ -23,6 +23,7 @@ const Search = () => {
       setLoading(false);
     }
   };
+//"location"
 //"map"
   return (
     <div>
@@ -47,6 +48,7 @@ const Search = () => {
             Visit GitHub Profile
           </a>
         </div>
+
       )}
     </div>
   );
