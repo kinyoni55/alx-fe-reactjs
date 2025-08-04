@@ -5,7 +5,7 @@ import useRecipeStore from './recipeStore';
 const RecipeList = () => {
   // Directly select filteredRecipes from the store.
   const filteredRecipes = useRecipeStore(state => state.filteredRecipes);
-
+//recipes
   return (
     <div>
       <h2>Recipe List</h2>
@@ -18,6 +18,7 @@ const RecipeList = () => {
           <p>{recipe.description}</p>
         </div>
       ))}
+
     </div>
   );
 };
