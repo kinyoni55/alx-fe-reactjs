@@ -23,7 +23,7 @@ const Search = () => {
       setLoading(false);
     }
   };
-
+//"map"
   return (
     <div>
       <form onSubmit={handleSubmit}>
