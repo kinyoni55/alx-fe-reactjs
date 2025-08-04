@@ -1,22 +1,30 @@
-import { useState } from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import About from './components/About';
+import Services from './components/Services'; 
+import Contact from './components/Contact';
+import Navbar from './components/Navbar';
+
 
 function App() {
+  
 
   return (
-    <Router>
     
+    
+    <BrowserRouter>
+      <Navbar/>
       <Routes>
-        <Route path="about" element={<div>About Page</div>} />
-        <Route path="/" element={<div>Home Page</div>} />
-        <Route path="/contact" element={<div>Contact Page</div>} />
-        <Route path="/services" element={<div>Services Page</div>} />
-        <Route path="/blog" element={<div>Blog Page</div>} />
-        <Route path="/navbar" element={<Navbar />} />
-        {/* Add other routes as needed */}
-      </Routes>
-    </Router>
+        <Route path="/" element={<Home />} />
+        <Route path="/About" element={<About />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/contact" element={<Contact />} />
+    </Routes>
+    </BrowserRouter>
+    
+   
   )
 }
-
-export default App
+export default App;

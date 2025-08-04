@@ -1,7 +1,30 @@
-import create from 'zustand';
+import { create } from 'zustand'
 
-const useRecipeStore = create((set) => ({
+const useRecipeStore = create(set => ({
   recipes: [],
+  searchTerm: '',
+  filteredRecipes: [],
+  setSearchTerm: (term) => set(state => {
+    const filteredRecipes = state.recipes.filter(recipe =>
+      recipe.title.toLowerCase().includes(term.toLowerCase())
+    );
+    return { searchTerm: term, filteredRecipes };
+  }),
+  filterRecipes: () => set(state => ({
+    filteredRecipes: state.recipes.filter(recipe =>
+      recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+    )
+  })),
+  addRecipe: (newRecipe) => set(state => ({ recipes: [...state.recipes, newRecipe] })),
+  setRecipes: (recipes) => set({ recipes }),
+  updateRecipe: (updatedRecipe) => set(state => ({
+    recipes: state.recipes.map(recipe => 
+      recipe.id === updatedRecipe.id ? updatedRecipe : recipe
+    )
+  })),
+  deleteRecipe: (id) => set(state => ({
+    recipes: state.recipes.filter(recipe => recipe.id !== id)
+  })),
   favorites: [],
   addFavorite: (recipeId) => set(state => ({ favorites: [...state.favorites, recipeId] })),
   removeFavorite: (recipeId) => set(state => ({
@@ -15,36 +38,6 @@ const useRecipeStore = create((set) => ({
     );
     return { recommendations: recommended };
   }),
+}));
 
-  searchTerm: '',
-  setSearchTerm: (term) => set({ searchTerm: term }),
-  filteredRecipes : [],
-  filterRecipes: (term) => set((state) => ({
-    filteredRecipes: state.recipes.filter((recipe) => recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-    )}),
-)}) ,
-
-  // Add a new recipe
-  addRecipe, (newRecipe) => set((state) => ({
-    recipes: [...state.recipes, newRecipe],
-  })),
-
-  // Set all recipes
-  setRecipes, (recipes) => set({ recipes }),
-
-  // Delete a recipe
-  deleteRecipe, (id) =>
-    set((state) => ({
-      recipes: state.recipes.filter((recipe) => recipe.id !== id),
-    })),
-
-  // Update an existing recipe
-  updateRecipe, (updatedRecipe) =>
-    set((state) => ({
-      recipes: state.recipes.map((recipe) =>
-        recipe.id === updatedRecipe.id ? updatedRecipe : recipe
-      ),
-    })),
-
-  )
 export default useRecipeStore;

@@ -1,17 +1,14 @@
-import useRecipeStore from "./recipeStore";
+import  useRecipeStore  from './recipeStore';
 
-const RecommendationsList = () => {
-  const recipes = useRecipeStore((state) => state.recipes);
-  const searchTerm = useRecipeStore((state) => state.searchTerm);
-
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+const RecommendationList = () => {
+  const Recommendation = useRecipeStore(state => state.recommendations.map(id =>
+    state.recipes.find(recipe => recipe.id === id)
+  ));
 
   return (
     <div>
-      <h2>Recommended Recipes</h2>
-      {filteredRecipes.map((recipe) => (
+      <h2>My Favorites</h2>
+      {Recommendation.map(recipe => (
         <div key={recipe.id}>
           <h3>{recipe.title}</h3>
           <p>{recipe.description}</p>
@@ -19,6 +16,5 @@ const RecommendationsList = () => {
       ))}
     </div>
   );
-}
-
-export default RecommendationsList;
+};
+export default RecommendationList;

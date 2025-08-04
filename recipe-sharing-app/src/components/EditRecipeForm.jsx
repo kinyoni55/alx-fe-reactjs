@@ -1,42 +1,69 @@
-// EditRecipeForm component
-  import { useRecipeStore } from './recipeStore';
-  import useRecipeStore from './recipeStore';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import useRecipeStore from './recipeStore';
 
+const EditRecipeForm = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { recipes, updateRecipe } = useRecipeStore();
+  const [recipe, setRecipe] = useState({ title: '', ingredients: '', instructions: '' });
 
-  const EditRecipeForm = ({ recipe }) => {
-  const [title, setTitle] = useState(recipe.title);
-  const [description, setDescription] = useState(recipe.description);
+  useEffect(() => {
+    const recipeToEdit = recipes.find(recipe => recipe.id === id);
+    if (recipeToEdit) {
+      setRecipe(recipeToEdit);
+    }
+  }, [id, recipes]);
 
-  const updateRecipe = useRecipeStore((state) => state.updateRecipe);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setRecipe(prevRecipe => ({
+      ...prevRecipe,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateRecipe({
-      ...recipe,
-      title,
-      description,
-    });
-    alert('Recipe updated!');
+    updateRecipe(recipe);
+    navigate(`/recipe/${id}`);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>Edit Recipe</h3>
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <br />
-      <textarea
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      <br />
-      <button type="submit">Save Changes</button>
-    </form>
+    <div>
+      <h2>Edit Recipe</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Title:
+          <input 
+            type="text" 
+            name="title" 
+            value={recipe.title} 
+            onChange={handleChange} 
+          />
+        </label>
+        <br />
+        <label>
+          Ingredients:
+          <textarea 
+            name="ingredients" 
+            value={recipe.ingredients} 
+            onChange={handleChange} 
+          />
+        </label>
+        <br />
+        <label>
+          Instructions:
+          <textarea 
+            name="instructions" 
+            value={recipe.instructions} 
+            onChange={handleChange} 
+          />
+        </label>
+        <br />
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
   );
 };
 
