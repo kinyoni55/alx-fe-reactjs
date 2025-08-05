@@ -5,6 +5,7 @@ export const fetchUserData = async (username) => {
   const res = await fetch(`https://api.github.com/users/${username}`, {
     method: 'get'
 //"https://api.github.com/search/users?q", "location", "minRepos"
+//"fetchUserData"
     headers: {
       Authorization: `token ${apiKey}`
     }
