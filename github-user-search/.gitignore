@@ -12,7 +12,7 @@ dist
 dist-ssr
 tests
 Search.test.jsx
-.env
+*.env
 .env.local
 *.local
 
